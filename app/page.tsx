@@ -90,11 +90,14 @@ export default function Home() {
 
             {/* Admin Panel - Coming Soon */}
             {isConnected && address === '0x1234567890123456789012345678901234567890' && (
-              <div className="border-t-4 border-orange-500 bg-white rounded-lg shadow-md p-6">
-                <h2 className="text-xl font-semibold text-gray-900 mb-4">
+              <div className="bg-slate-800/50 backdrop-blur-sm rounded-2xl shadow-2xl p-8 border border-orange-500/50 hover:border-orange-500/80 transition-all duration-500">
+                <h2 className="text-2xl font-semibold text-white mb-6 flex items-center gap-3">
+                  <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-red-600 rounded-xl flex items-center justify-center">
+                    <span className="text-xl">⚡</span>
+                  </div>
                   Admin Panel
                 </h2>
-                <p className="text-gray-600">
+                <p className="text-gray-300 text-lg">
                   Admin functionality will be available once contracts are deployed.
                 </p>
               </div>
