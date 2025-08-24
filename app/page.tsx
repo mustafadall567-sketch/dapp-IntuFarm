@@ -1,26 +1,10 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import WalletConnect from '@/components/WalletConnect';
-import StakingInterface from '@/components/StakingInterface';
-import AdminPanel from '@/components/AdminPanel';
-import { useAccount } from 'wagmi';
+import { useState } from 'react';
 
 export default function Home() {
-  const { isConnected, address } = useAccount();
-  const [isAdmin, setIsAdmin] = useState(false);
-
-  // Check if connected address is admin (simplified check)
-  useEffect(() => {
-    if (address) {
-      // In a real app, you'd check this against the contract
-      // For demo purposes, we'll use environment variable
-      const adminAddress = process.env.NEXT_PUBLIC_ADMIN_ADDRESS?.toLowerCase();
-      setIsAdmin(address.toLowerCase() === adminAddress);
-    } else {
-      setIsAdmin(false);
-    }
-  }, [address]);
+  const [isConnected, setIsConnected] = useState(false);
+  const [address, setAddress] = useState<string>('');
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
@@ -38,7 +22,12 @@ export default function Home() {
 
         {/* Wallet Connection */}
         <div className="flex justify-center mb-8">
-          <WalletConnect />
+          <button 
+            onClick={() => setIsConnected(!isConnected)}
+            className="btn-primary"
+          >
+            {isConnected ? 'Disconnect Wallet' : 'Connect Wallet'}
+          </button>
         </div>
 
         {/* Main Content */}
@@ -61,21 +50,36 @@ export default function Home() {
                 <div>
                   <span className="font-medium text-gray-700">Connected:</span>
                   <p className="text-green-600 font-mono text-xs">
-                    {address?.slice(0, 6)}...{address?.slice(-4)}
+                    {address ? `${address.slice(0, 6)}...${address.slice(-4)}` : '0x1234...5678'}
                   </p>
                 </div>
               </div>
             </div>
 
-            {/* Staking Interface */}
-            <StakingInterface />
+            {/* Staking Interface - Coming Soon */}
+            <div className="bg-white rounded-lg shadow-md p-6">
+              <h2 className="text-xl font-semibold text-gray-900 mb-4">
+                Staking Interface
+              </h2>
+              <p className="text-gray-600">
+                Staking functionality will be available once contracts are deployed.
+                Connect your wallet to get started.
+              </p>
+            </div>
 
-            {/* Admin Panel (only for admin users) */}
-            {isAdmin && (
-              <div className="border-t-4 border-orange-500">
-                <AdminPanel />
+            {/* Admin Panel - Coming Soon */}
+            {isConnected && address === '0x1234567890123456789012345678901234567890' && (
+              <div className="border-t-4 border-orange-500 bg-white rounded-lg shadow-md p-6">
+                <h2 className="text-xl font-semibold text-gray-900 mb-4">
+                  Admin Panel
+                </h2>
+                <p className="text-gray-600">
+                  Admin functionality will be available once contracts are deployed.
+                </p>
               </div>
             )}
+
+            {/* Complex components will be available after contract deployment */}
 
             {/* Security Notice */}
             <div className="bg-yellow-50 border-l-4 border-yellow-400 p-6 rounded-r-lg">
