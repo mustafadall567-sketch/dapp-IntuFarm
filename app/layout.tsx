@@ -46,8 +46,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <title>StableCoin Farming dApp</title>
-        <meta name="description" content="Secure stablecoin farming on Intuition testnet" />
+        <title>IntuFarm - Advanced DeFi Yield Farming</title>
+        <meta name="description" content="Stake sUSD tokens and earn RWD rewards on Intuition testnet with IntuFarm's secure yield farming platform" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </head>
