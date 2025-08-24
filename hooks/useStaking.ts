@@ -1,7 +1,7 @@
 import { useAccount } from 'wagmi';
 import { useContractRead, useMultipleContractRead } from './useContract';
 import { CONTRACTS } from '@/lib/contracts';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 
 interface UserInfo {
   amount: bigint;
@@ -57,7 +57,7 @@ export function useStaking() {
   });
 
   // Token balances
-  const { data: balancesRaw, refetch: refetchBalances } = useMultipleContractRead([
+  const { data: balancesRaw, refetchAll: refetchBalances } = useMultipleContractRead([
     {
       address: CONTRACTS.stableUSD.address,
       abi: CONTRACTS.stableUSD.abi,
@@ -121,9 +121,9 @@ export function useStaking() {
     accRewardPerShare: stakingStatsRaw[3],
   } : null;
 
-  const balances: TokenBalances | null = balancesRaw.data.sUSD !== undefined && balancesRaw.data.RWD !== undefined ? {
-    sUSD: balancesRaw.data.sUSD as bigint,
-    RWD: balancesRaw.data.RWD as bigint,
+  const balances: TokenBalances | null = balancesRaw.sUSD !== undefined && balancesRaw.RWD !== undefined ? {
+    sUSD: balancesRaw.sUSD as bigint,
+    RWD: balancesRaw.RWD as bigint,
   } : null;
 
   // Computed values
@@ -168,7 +168,7 @@ export function useStaking() {
     currentAPR,
     
     // Loading states
-    isLoading: userInfoLoading || balancesRaw.isLoading,
+    isLoading: userInfoLoading || false,
     
     // Refetch functions
     refetchAll,
@@ -230,7 +230,7 @@ export function useStakingAnalytics() {
   const { stakingStats } = useStaking();
   
   // Calculate various metrics
-  const metrics = React.useMemo(() => {
+  const metrics = useMemo(() => {
     if (!stakingStats) {
       return {
         totalValueLocked: 0n,

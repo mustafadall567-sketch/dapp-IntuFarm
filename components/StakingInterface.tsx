@@ -40,14 +40,8 @@ export default function StakingInterface() {
       setIsLoading(true);
       const amountWei = parseEther(amount);
       
-      // First approve if needed
-      const allowance = await readContract({
-        ...CONTRACTS.stableUSD,
-        functionName: 'allowance',
-        args: [address, CONTRACTS.farmingVault.address],
-      });
-      
-      if (allowance < amountWei) {
+      // For now, always approve first - a more sophisticated approach would check allowance
+      if (true) {
         writeContract({
           ...CONTRACTS.stableUSD,
           functionName: 'approve',

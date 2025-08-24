@@ -1,5 +1,5 @@
 import { useReadContract, useWriteContract, useWaitForTransactionReceipt } from 'wagmi';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { Address, Abi } from 'viem';
 
 interface UseContractReadOptions {
@@ -71,7 +71,7 @@ export function useContractWrite(options: UseContractWriteOptions) {
   });
 
   // Update states when transaction states change
-  React.useEffect(() => {
+  useEffect(() => {
     if (hash) {
       setTransactionHash(hash);
       setIsConfirming(true);
@@ -79,14 +79,14 @@ export function useContractWrite(options: UseContractWriteOptions) {
     }
   }, [hash]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (isReceiptSuccess) {
       setIsConfirming(false);
       setIsSuccess(true);
     }
   }, [isReceiptSuccess]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (confirmError) {
       setIsConfirming(false);
       setIsSuccess(false);
@@ -151,7 +151,7 @@ export function useMultipleContractRead<T extends Record<string, any>>(
     })
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     const newData: Partial<T> = {};
     const newErrors: Record<string, Error> = {};
     let loading = false;
@@ -164,7 +164,7 @@ export function useMultipleContractRead<T extends Record<string, any>>(
       } else if (result.error) {
         newErrors[contract.key as string] = result.error;
       } else if (result.data !== undefined) {
-        newData[contract.key] = result.data;
+        newData[contract.key] = result.data as any;
       }
     });
 
@@ -246,7 +246,7 @@ export function useContractEvents(
 
   // In a real implementation, you would use a proper event listening mechanism
   // This is a simplified version for demonstration
-  React.useEffect(() => {
+  useEffect(() => {
     // Placeholder for event listening logic
     // In practice, you would use wagmi's event hooks or a similar mechanism
     setIsLoading(false);
